@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ULTRAFLOW</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* graphite industriel, cyan procédé, ambre signal ; grille technique, lignes fines */
+  --graphite:#1C2126; --steel:#2B333B; --line:#D5DCE0; --paper:#F4F6F7; --white:#FFFFFF;
+  --cyan:#12B5CB; --cyan-d:#0E8FA1; --amber:#F5B700; --mute:#66737C; --ink:#1C2126;
+  --display:"Archivo", "Arial Narrow", Arial, sans-serif; --mono:"IBM Plex Mono", "Courier New", monospace;
+  color-scheme: light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--white);color:var(--ink);font:16px/1.55 var(--display);}
+a{color:inherit}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0}
+.wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+.mono{font-family:var(--mono);font-size:13px;letter-spacing:.02em}
+/* header */
+header{background:var(--graphite);color:var(--white);position:sticky;top:0;z-index:10;border-bottom:1px solid #2F383F}
+.bar{display:flex;align-items:center;gap:32px;height:64px}
+.logo{font-size:22px;letter-spacing:.02em;text-decoration:none;white-space:nowrap}
+.logo b{color:var(--cyan);font-weight:800}
+.logo span{font-weight:400}
+nav{display:flex;gap:24px;margin-left:auto;flex-wrap:wrap}
+nav a{text-decoration:none;font-size:14px;color:#C3CCD2}
+nav a:hover,nav a:focus-visible{color:var(--white)}
+.navcta{background:var(--cyan);color:var(--graphite)!important;padding:8px 14px;font-weight:600}
+@media (max-width:820px){nav a:not(.navcta){display:none}}
+/* hero */
+.hero{background:var(--graphite);color:var(--white);position:relative;overflow:hidden}
+.hero .top{display:grid;grid-template-columns:1.05fr 1fr;gap:40px;padding-top:64px;padding-bottom:0;align-items:end}
+.kicker{color:var(--amber);margin-bottom:18px}
+.hero h1{font-size:clamp(36px,5vw,60px);line-height:1.02;font-weight:800;letter-spacing:-.01em}
+.hero h1 em{font-style:normal;color:var(--cyan)}
+.hero p.lead{color:#C3CCD2;font-size:18px;max-width:46ch;margin:22px 0 30px}
+.btns{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:56px}
+.btn{display:inline-block;border:1px solid var(--cyan);padding:13px 20px;font:600 15px var(--display);text-decoration:none;cursor:pointer;background:transparent;color:inherit}
+.btn.fill{background:var(--cyan);color:var(--graphite)}
+.btn:hover{background:var(--cyan-d);border-color:var(--cyan-d);color:var(--white)}
+.btn:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+.schema{width:100%;height:auto;display:block}
+.specs{display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid #39434B;margin-top:0}
+.specs div{padding:22px 18px 26px;border-right:1px solid #39434B}
+.specs div:last-child{border-right:0}
+.specs b{display:block;font-size:28px;font-weight:800;color:var(--white);font-variant-numeric:tabular-nums}
+.specs span{color:#94A1A9;font-size:13px}
+@media (max-width:860px){.hero .top{grid-template-columns:1fr}.specs{grid-template-columns:repeat(2,1fr)}.specs div{border-bottom:1px solid #39434B}}
+.pm{background:var(--steel);color:#C3CCD2;font-size:14px}
+.pm .wrap{display:flex;gap:14px;align-items:center;padding-top:12px;padding-bottom:12px;flex-wrap:wrap}
+.pm i{width:10px;height:10px;background:var(--amber);display:inline-block}
+.pm strong{color:var(--white);font-weight:600}
+/* sections */
+section{padding:88px 0;border-bottom:1px solid var(--line)}
+.sechead{display:grid;grid-template-columns:120px 1fr;gap:24px;margin-bottom:44px;align-items:baseline}
+.sechead .num{font:500 13px var(--mono);color:var(--cyan-d);border-top:2px solid var(--graphite);padding-top:8px}
+.sechead h2{font-size:clamp(28px,3.4vw,40px);font-weight:800;line-height:1.1}
+.sechead p{color:var(--mute);margin:12px 0 0;max-width:62ch}
+@media (max-width:640px){.sechead{grid-template-columns:1fr;gap:8px}}
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:0;counter-reset:s}
+.step{padding:0 20px 0 0;border-left:1px solid var(--line);padding-left:18px}
+.step:first-child{border-left:0;padding-left:0}
+.step h3{font-size:18px;font-weight:600;margin:10px 0 6px}
+.step p{margin:0;color:var(--mute);font-size:14.5px}
+.step .mono{color:var(--cyan-d)}
+@media (max-width:860px){.steps{grid-template-columns:1fr 1fr;gap:28px}.step{border-left:0;padding-left:0}}
+/* offres */
+.offers{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--graphite)}
+.offer{padding:26px 22px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:10px}
+.offer:last-child{border-right:0}
+.offer.main{background:var(--graphite);color:var(--white)}
+.offer .tag{font:500 12px var(--mono);color:var(--cyan-d)}
+.offer.main .tag{color:var(--cyan)}
+.offer h3{font-size:21px;font-weight:600}
+.offer p{margin:0;font-size:14.5px;color:var(--mute)}
+.offer.main p{color:#AEB8BF}
+.price{font-size:26px;font-weight:800;font-variant-numeric:tabular-nums;margin-top:auto}
+.price small{font-size:13px;font-weight:400;color:var(--mute)}
+.offer.main .price small{color:#94A1A9}
+.offer ul{margin:0;padding-left:18px;font-size:14px;color:var(--mute)}
+.offer.main ul{color:#AEB8BF}
+.add{margin-top:8px;align-self:flex-start;border:1px solid currentColor;background:none;color:inherit;padding:9px 14px;font:600 14px var(--display);cursor:pointer}
+.add:hover{background:var(--cyan);border-color:var(--cyan);color:var(--graphite)}
+@media (max-width:960px){.offers{grid-template-columns:1fr 1fr}.offer{border-bottom:1px solid var(--line)}}
+@media (max-width:560px){.offers{grid-template-columns:1fr}}
+/* forms */
+.split{display:grid;grid-template-columns:1.25fr .9fr;gap:48px;align-items:start}
+@media (max-width:900px){.split{grid-template-columns:1fr}}
+fieldset{border:0;margin:0 0 26px;padding:0}
+legend{font:500 13px var(--mono);color:var(--cyan-d);margin-bottom:12px;padding:0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:560px){.grid2{grid-template-columns:1fr}}
+label{display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:500}
+input,select,textarea{font:15px var(--display);padding:11px 12px;border:1px solid #B9C3C9;background:var(--white);color:var(--ink);border-radius:0;width:100%}
+textarea{min-height:96px;resize:vertical}
+.radios{display:flex;gap:10px;flex-wrap:wrap}
+.radios label{flex-direction:row;align-items:center;gap:8px;border:1px solid #B9C3C9;padding:10px 14px;cursor:pointer;font-weight:500}
+.radios input{width:auto}
+.radios label:has(input:checked){border-color:var(--graphite);background:var(--graphite);color:var(--white)}
+.lines{width:100%;border-collapse:collapse;font-size:15px}
+.lines td{padding:12px 0;border-bottom:1px solid var(--line);vertical-align:middle}
+.lines td.q{width:132px}
+.lines td.t{text-align:right;width:130px;font-variant-numeric:tabular-nums;font-weight:600}
+.lines .sub{display:block;color:var(--mute);font-size:13px}
+.qty{display:inline-flex;border:1px solid #B9C3C9}
+.qty button{width:36px;height:36px;border:0;background:var(--paper);font-size:18px;cursor:pointer;color:var(--ink)}
+.qty input{width:48px;border:0;text-align:center;padding:0;font-variant-numeric:tabular-nums}
+.recap{background:var(--paper);padding:26px;position:sticky;top:88px}
+.recap h3{font-size:20px;margin-bottom:14px}
+.recap dl{display:grid;grid-template-columns:1fr auto;gap:8px 16px;margin:0 0 18px;font-variant-numeric:tabular-nums}
+.recap dt{color:var(--mute)} .recap dd{margin:0;text-align:right}
+.recap .tot{font-weight:800;font-size:22px;color:var(--ink);border-top:2px solid var(--graphite);padding-top:10px}
+.note{font-size:13px;color:var(--mute);margin:0 0 16px}
+.submit{width:100%;background:var(--graphite);color:var(--white);border:0;padding:15px;font:600 16px var(--display);cursor:pointer}
+.submit:hover{background:var(--cyan-d)}
+.err{color:#B3261E;font-size:14px;min-height:20px;margin:8px 0 0}
+.done{display:none;border:1px solid var(--graphite);padding:24px;margin-top:20px;background:var(--white)}
+.done.show{display:block}
+.done h4{margin:0 0 8px;font-size:18px}
+.done pre{white-space:pre-wrap;font:13px/1.5 var(--mono);background:var(--paper);padding:14px;margin:12px 0;max-height:260px;overflow:auto}
+.done .row{display:flex;gap:10px;flex-wrap:wrap}
+/* prestations */
+.svc{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:2px solid var(--graphite);margin-bottom:48px}
+.svc div{padding:20px 20px 22px 0;border-bottom:1px solid var(--line)}
+.svc h3{font-size:17px;font-weight:600;margin-bottom:4px}
+.svc p{margin:0;font-size:14px;color:var(--mute)}
+.svc .mono{color:var(--cyan-d);display:block;margin-top:8px}
+@media (max-width:820px){.svc{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.svc{grid-template-columns:1fr}}
+/* support */
+.faq details{border-bottom:1px solid var(--line);padding:16px 0}
+.faq summary{cursor:pointer;font-weight:600;font-size:16.5px;list-style:none;display:flex;justify-content:space-between;gap:16px}
+.faq summary::after{content:"+";font:500 20px var(--mono);color:var(--cyan-d)}
+.faq details[open] summary::after{content:"−"}
+.faq p{margin:10px 0 0;color:var(--mute);max-width:66ch}
+.contact{background:var(--graphite);color:var(--white);padding:28px}
+.contact h3{font-size:20px;margin-bottom:18px}
+.contact dl{margin:0;display:grid;grid-template-columns:110px 1fr;gap:12px 14px;font-size:15px}
+.contact dt{color:#94A1A9;font:500 12px var(--mono);padding-top:3px}
+.contact dd{margin:0}
+.contact a{color:var(--cyan)}
+footer{background:var(--graphite);color:#94A1A9;font-size:13.5px;padding:36px 0}
+footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+footer b{color:var(--white)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap bar">
+    <a class="logo" href="#top"><span>ULTRA</span><b>FLOW</b></a>
+    <nav aria-label="Navigation principale">
+      <a href="#procede">Le procédé</a>
+      <a href="#offres">Offres</a>
+      <a href="#prestations">Prestations</a>
+      <a href="#support">Service client</a>
+      <a class="navcta" href="#commande">Commander</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero" id="top">
+  <div class="wrap top">
+    <div>
+      <div class="kicker mono">Ultrafiltration tangentielle · membrane céramique 2 nm</div>
+      <h1>Le lactosérum rejeté devient une <em>protéine algérienne</em></h1>
+      <p class="lead">ULTRAFLOW est un dispositif d'ultrafiltration conçu et fabriqué en Algérie. Il retient les protéines du lactosérum et en tire un WPI d'environ 85 % de protéines, pour les écoles, les laboratoires et les industriels laitiers.</p>
+      <div class="btns">
+        <a class="btn fill" href="#commande">Commander ou demander un devis</a>
+        <a class="btn" href="#prestations">Réserver une prestation</a>
+      </div>
+    </div>
+    <svg class="schema" viewBox="0 0 520 330" role="img" aria-label="Schéma du dispositif : cuve thermostatée, pompe, module membranaire, sorties perméat et rétentat">
+      <defs><pattern id="g" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0H0V20" fill="none" stroke="#28313A" stroke-width="1"/></pattern></defs>
+      <rect width="520" height="330" fill="url(#g)"/>
+      <g fill="none" stroke="#C3CCD2" stroke-width="2">
+        <rect x="40" y="70" width="110" height="170"/>
+        <path d="M40 92h110"/>
+        <path d="M58 120c20 10 54 -10 74 0M58 150c20 10 54 -10 74 0M58 180c20 10 54 -10 74 0M58 210c20 10 54 -10 74 0" stroke="#F5B700" stroke-width="1.6"/>
+        <path d="M150 220h50"/>
+        <circle cx="222" cy="220" r="22"/>
+        <path d="M212 220l14 -9v18z" fill="#C3CCD2"/>
+        <path d="M244 220h36v-110h20"/>
+        <rect x="300" y="92" width="170" height="36" stroke="#12B5CB" stroke-width="2.4"/>
+        <path d="M310 110h150" stroke="#12B5CB" stroke-dasharray="4 5"/>
+        <path d="M470 110h20v-60H95v20"/>
+        <path d="M385 128v70"/>
+        <rect x="355" y="198" width="60" height="64"/>
+        <circle cx="282" cy="160" r="12"/><path d="M282 160l6 -6"/>
+      </g>
+      <g font-family="IBM Plex Mono, monospace" font-size="11" fill="#94A1A9">
+        <text x="40" y="58">CUVE INOX 10 L</text>
+        <text x="40" y="262">serpentin + cryostat</text>
+        <text x="196" y="262">pompe</text>
+        <text x="300" y="80" fill="#12B5CB">MEMBRANE CÉRAMIQUE · 0,119 m²</text>
+        <text x="300" y="150">perméat</text>
+        <text x="424" y="236">5,5 L</text>
+        <text x="300" y="40">rétentat → cuve · 4,5 L</text>
+        <text x="236" y="186">2,3 bar</text>
+      </g>
+    </svg>
+  </div>
+  <div class="wrap">
+    <div class="specs">
+      <div><b>99,96 %</b><span>des protéines retenues</span></div>
+      <div><b>98,1 %</b><span>du lactose éliminé</span></div>
+      <div><b>15,4</b><span>L/h/m², flux de perméat</span></div>
+      <div><b>60 g</b><span>de poudre pour 10 L</span></div>
+      <div><b>TRL 4</b><span>validé sur lactosérum réel</span></div>
+    </div>
+  </div>
+</div>
+
+<section id="procede">
+  <div class="wrap">
+    <div class="sechead"><div class="num">01</div><div><h2>Du lactosérum à la poudre, en circuit fermé</h2><p>Le lactosérum de fromagerie passe sur la membrane, les protéines restent, l'eau et le lactose traversent. Le concentré est ensuite lavé puis séché.</p></div></div>
+    <div class="steps">
+      <div class="step"><span class="mono">ÉTAPE 1</span><h3>Lactosérum</h3><p>Collecté auprès de fromageries partenaires, NALILAIT à Constantine.</p></div>
+      <div class="step"><span class="mono">ÉTAPE 2</span><h3>Ultrafiltration</h3><p>Membrane céramique de 2 nm, pression contrôlée, cuve thermostatée.</p></div>
+      <div class="step"><span class="mono">ÉTAPE 3</span><h3>Diafiltration</h3><p>Lavage du concentré à l'eau : 98,1 % du lactose éliminé.</p></div>
+      <div class="step"><span class="mono">ÉTAPE 4</span><h3>Séchage</h3><p>Lyophilisation ou atomisation du rétentat.</p></div>
+      <div class="step"><span class="mono">ÉTAPE 5</span><h3>WPI</h3><p>Une poudre d'environ 85 % de protéines, structure native conservée.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="offres">
+  <div class="wrap">
+    <div class="sechead"><div class="num">02</div><div><h2>Nos offres</h2><p>Prix hors taxes. Les dispositifs et les licences sont confirmés par un devis signé ; les sachets de WPI sont livrés sous 7 jours ouvrés après confirmation.</p></div></div>
+    <div class="offers">
+      <article class="offer main">
+        <span class="tag">ÉQUIPEMENT</span>
+        <h3>Dispositif ULTRAFLOW</h3>
+        <p>Pour un industriel ou un laboratoire qui veut produire son propre WPI.</p>
+        <ul><li>Cuve inox thermostatée, pompe, module membranaire</li><li>Installation et mise en service</li><li>Formation de l'opérateur</li></ul>
+        <div class="price">400 000 DA <small>HT</small></div>
+        <button class="add" type="button" data-add="disp">Ajouter à la commande</button>
+      </article>
+      <article class="offer">
+        <span class="tag">ENSEIGNEMENT</span>
+        <h3>Licence pédagogique</h3>
+        <p>Le dispositif mis à disposition d'un établissement, avec le protocole de TP et le support technique.</p>
+        <div class="price">60 000 DA <small>HT / an</small></div>
+        <button class="add" type="button" data-add="lic">Ajouter à la commande</button>
+      </article>
+      <article class="offer">
+        <span class="tag">ENSEIGNEMENT</span>
+        <h3>Séance de travaux pratiques</h3>
+        <p>Une séance encadrée par notre équipe, de la filtration au dosage des protéines.</p>
+        <div class="price">40 000 DA <small>HT / séance</small></div>
+        <button class="add" type="button" data-add="tp">Ajouter à la commande</button>
+      </article>
+      <article class="offer">
+        <span class="tag">PRODUIT</span>
+        <h3>Sachet de WPI 25 g</h3>
+        <p>Isolat de protéines de lactosérum produit à Constantine, pour les sportifs et la formulation.</p>
+        <div class="price">300 DA <small>HT / sachet</small></div>
+        <button class="add" type="button" data-add="wpi">Ajouter à la commande</button>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="commande">
+  <div class="wrap">
+    <div class="sechead"><div class="num">03</div><div><h2>Commande et devis</h2><p>Choisissez les quantités, remplissez vos coordonnées. Vous recevez un récapitulatif à envoyer par WhatsApp ou par e-mail ; nous vous rappelons sous 48 h pour confirmer.</p></div></div>
+    <form id="orderForm" class="split" novalidate>
+      <div>
+        <fieldset>
+          <legend>VOUS ÊTES</legend>
+          <div class="radios" role="radiogroup">
+            <label><input type="radio" name="ctype" value="Établissement de formation" checked> Établissement de formation</label>
+            <label><input type="radio" name="ctype" value="Industriel ou laboratoire"> Industriel ou laboratoire</label>
+            <label><input type="radio" name="ctype" value="Particulier ou sportif"> Particulier ou sportif</label>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>QUANTITÉS</legend>
+          <table class="lines"><tbody id="lines"></tbody></table>
+        </fieldset>
+        <fieldset>
+          <legend>COORDONNÉES</legend>
+          <div class="grid2">
+            <label for="o-name">Nom et prénom<input id="o-name" name="name" autocomplete="name" required></label>
+            <label for="o-org">Établissement ou entreprise<input id="o-org" name="org" autocomplete="organization"></label>
+            <label for="o-tel">Téléphone<input id="o-tel" name="tel" type="tel" autocomplete="tel" placeholder="05 XX XX XX XX" required></label>
+            <label for="o-mail">E-mail<input id="o-mail" name="mail" type="email" autocomplete="email"></label>
+            <label for="o-wil">Wilaya<input id="o-wil" name="wilaya" required placeholder="Constantine"></label>
+            <label for="o-adr">Adresse de livraison<input id="o-adr" name="adr" autocomplete="street-address"></label>
+          </div>
+          <label for="o-msg" style="margin-top:14px">Précisions<textarea id="o-msg" name="msg" placeholder="Date souhaitée, contraintes d'installation, nombre d'étudiants..."></textarea></label>
+        </fieldset>
+      </div>
+      <aside class="recap" aria-live="polite">
+        <h3>Récapitulatif</h3>
+        <dl>
+          <dt>Total HT</dt><dd id="r-ht">0 DA</dd>
+          <dt>TVA 19 %</dt><dd id="r-tva">0 DA</dd>
+          <dt class="tot">Total TTC</dt><dd class="tot" id="r-ttc">0 DA</dd>
+        </dl>
+        <p class="note">Livraison des sachets : paiement à la livraison. Dispositifs et licences : paiement selon le devis. Les frais de livraison sont indiqués à la confirmation.</p>
+        <button class="submit" type="submit">Valider ma demande</button>
+        <p class="err" id="o-err"></p>
+        <div class="done" id="o-done">
+          <h4>Votre demande est prête</h4>
+          <p class="note">Envoyez-la-nous en un clic. Rien n'est transmis tant que vous ne l'avez pas envoyée.</p>
+          <pre id="o-text"></pre>
+          <div class="row">
+            <a class="btn fill" id="o-wa" target="_blank" rel="noopener">Envoyer par WhatsApp</a>
+            <button class="btn" type="button" data-copy="o-text">Copier le texte</button>
+          </div>
+          <p class="note" style="margin-top:12px">Ou par e-mail à feryallbouhsane@gmail.com</p>
+        </div>
+      </aside>
+    </form>
+  </div>
+</section>
+
+<section id="prestations">
+  <div class="wrap">
+    <div class="sechead"><div class="num">04</div><div><h2>Demande de prestation</h2><p>Une séance, une formation, une intervention sur votre dispositif ou un essai sur votre propre lactosérum.</p></div></div>
+    <div class="svc">
+      <div><h3>Séance de travaux pratiques</h3><p>Filtration, diafiltration et dosage, encadrés sur place.</p><span class="mono">40 000 DA HT</span></div>
+      <div><h3>Formation des opérateurs</h3><p>Prise en main du dispositif, nettoyage de la membrane, sécurité.</p><span class="mono">sur devis</span></div>
+      <div><h3>Installation et mise en service</h3><p>Montage, étalonnage et premier cycle de production avec vous.</p><span class="mono">incluse avec le dispositif</span></div>
+      <div><h3>Maintenance et SAV</h3><p>Diagnostic, nettoyage en place, remplacement de la membrane ou de la pompe.</p><span class="mono">sur devis</span></div>
+      <div><h3>Essai sur votre lactosérum</h3><p>Nous filtrons un échantillon de votre production et vous remettons le rendement et la teneur en protéines.</p><span class="mono">sur devis</span></div>
+      <div><h3>Analyses du WPI</h3><p>Protéines, lactose, humidité, contrôle microbiologique.</p><span class="mono">sur devis</span></div>
+    </div>
+    <form id="svcForm" class="split" novalidate>
+      <div>
+        <div class="grid2">
+          <label for="s-type">Prestation
+            <select id="s-type" name="type" required>
+              <option value="">Choisir</option>
+              <option>Séance de travaux pratiques</option>
+              <option>Formation des opérateurs</option>
+              <option>Installation et mise en service</option>
+              <option>Maintenance et SAV</option>
+              <option>Essai sur votre lactosérum</option>
+              <option>Analyses du WPI</option>
+            </select></label>
+          <label for="s-date">Date souhaitée<input id="s-date" name="date" type="date"></label>
+          <label for="s-name">Nom et prénom<input id="s-name" name="name" autocomplete="name" required></label>
+          <label for="s-org">Établissement ou entreprise<input id="s-org" name="org" autocomplete="organization"></label>
+          <label for="s-tel">Téléphone<input id="s-tel" name="tel" type="tel" autocomplete="tel" required></label>
+          <label for="s-nb">Participants ou volume<input id="s-nb" name="nb" placeholder="ex. 20 étudiants, 50 L de lactosérum"></label>
+        </div>
+        <label for="s-msg" style="margin-top:14px">Votre besoin<textarea id="s-msg" name="msg"></textarea></label>
+      </div>
+      <aside class="recap">
+        <h3>Votre demande</h3>
+        <p class="note">Nous vous répondons sous 48 h avec une date et, si besoin, un devis.</p>
+        <button class="submit" type="submit">Préparer la demande</button>
+        <p class="err" id="s-err"></p>
+        <div class="done" id="s-done">
+          <h4>Demande prête</h4>
+          <pre id="s-text"></pre>
+          <div class="row">
+            <a class="btn fill" id="s-wa" target="_blank" rel="noopener">Envoyer par WhatsApp</a>
+            <button class="btn" type="button" data-copy="s-text">Copier le texte</button>
+          </div>
+        </div>
+      </aside>
+    </form>
+  </div>
+</section>
+
+<section id="support">
+  <div class="wrap">
+    <div class="sechead"><div class="num">05</div><div><h2>Service client</h2><p>Une question avant d'acheter, un suivi de commande ou un souci technique.</p></div></div>
+    <div class="split">
+      <div class="faq">
+        <details open><summary>Quelle quantité de WPI obtient-on avec 10 L de lactosérum ?</summary><p>Environ 60 g de poudre, avec la cuve de 10 L du prototype. La teneur dépend de la richesse du lactosérum de départ.</p></details>
+        <details><summary>Le dispositif convient-il à un laboratoire d'enseignement ?</summary><p>Oui, c'est sa première destination. La licence pédagogique comprend le protocole de travaux pratiques et le support technique pendant l'année.</p></details>
+        <details><summary>Combien de temps dure une membrane ?</summary><p>Une membrane céramique bien nettoyée après chaque cycle se garde plusieurs années. Nous assurons son remplacement dans le cadre du SAV.</p></details>
+        <details><summary>Quels sont les délais de livraison ?</summary><p>Sachets de WPI : 7 jours ouvrés après confirmation. Dispositif : délai indiqué sur le devis, installation comprise.</p></details>
+        <details><summary>Comment payer ?</summary><p>Paiement à la livraison pour les sachets. Pour les dispositifs, les licences et les prestations, paiement selon les conditions du devis.</p></details>
+        <details><summary>Je veux suivre ma commande ou signaler un problème.</summary><p>Écrivez-nous sur WhatsApp ou appelez-nous en donnant votre nom et la date de la commande. Pour un problème technique, décrivez ce que vous observez (débit, pression, fuite) et joignez une photo si possible.</p></details>
+      </div>
+      <div class="contact">
+        <h3>Nous contacter</h3>
+        <dl>
+          <dt>TÉLÉPHONE</dt><dd><a href="tel:+213552165855">0552 16 58 55</a></dd>
+          <dt>WHATSAPP</dt><dd><a href="https://wa.me/213552165855" target="_blank" rel="noopener">0552 16 58 55</a></dd>
+          <dt>E-MAIL</dt><dd>feryallbouhsane@gmail.com</dd>
+          <dt>ADRESSE</dt><dd>Constantine, Algérie</dd>
+          <dt>HORAIRES</dt><dd>Dimanche au jeudi, 8 h 30 à 16 h 30</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span><b>ULTRAFLOW</b> · Constantine, Algérie</span>
+    <span>© 2026 ULTRAFLOW</span>
+  </div>
+</footer>
+
+<script>
+const WA = "213552165855";
+const fmt = n => n.toLocaleString("fr-FR").replace(/ |\s/g, " ") + " DA";
+const items = [
+  { id: "disp", name: "Dispositif ULTRAFLOW", sub: "installation et formation comprises", price: 400000 },
+  { id: "lic", name: "Licence pédagogique", sub: "par an", price: 60000 },
+  { id: "tp", name: "Séance de travaux pratiques", sub: "par séance", price: 40000 },
+  { id: "wpi", name: "Sachet de WPI 25 g", sub: "300 DA HT le sachet", price: 300 }
+];
+const q = Object.fromEntries(items.map(i => [i.id, 0]));
+const tb = document.getElementById("lines");
+tb.innerHTML = items.map(i => `<tr><td>${i.name}<span class="sub">${i.sub}</span></td>
+  <td class="q"><span class="qty"><button type="button" data-d="-1" data-i="${i.id}" aria-label="Retirer un ${i.name}">−</button><input id="q-${i.id}" inputmode="numeric" value="0" aria-label="Quantité ${i.name}"><button type="button" data-d="1" data-i="${i.id}" aria-label="Ajouter un ${i.name}">+</button></span></td>
+  <td class="t" id="t-${i.id}">0 DA</td></tr>`).join("");
+function render() {
+  let ht = 0;
+  items.forEach(i => { const t = q[i.id] * i.price; ht += t; document.getElementById("q-" + i.id).value = q[i.id]; document.getElementById("t-" + i.id).textContent = fmt(t); });
+  const tva = Math.round(ht * 0.19);
+  document.getElementById("r-ht").textContent = fmt(ht);
+  document.getElementById("r-tva").textContent = fmt(tva);
+  document.getElementById("r-ttc").textContent = fmt(ht + tva);
+  return { ht, tva };
+}
+tb.addEventListener("click", e => { const b = e.target.closest("button[data-i]"); if (!b) return; q[b.dataset.i] = Math.max(0, q[b.dataset.i] + Number(b.dataset.d)); render(); });
+tb.addEventListener("input", e => { const id = e.target.id.replace("q-", ""); if (id in q) { q[id] = Math.max(0, parseInt(e.target.value, 10) || 0); render(); } });
+document.querySelectorAll("[data-add]").forEach(b => b.addEventListener("click", () => {
+  const id = b.dataset.add; q[id] += id === "wpi" ? 10 : 1; render();
+  document.getElementById("commande").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+}));
+render();
+
+const val = (f, n) => (f.elements[n] ? f.elements[n].value.trim() : "");
+function finish(prefix, text) {
+  document.getElementById(prefix + "-text").textContent = text;
+  document.getElementById(prefix + "-wa").href = "https://wa.me/" + WA + "?text=" + encodeURIComponent(text);
+  document.getElementById(prefix + "-done").classList.add("show");
+}
+document.getElementById("orderForm").addEventListener("submit", e => {
+  e.preventDefault(); const f = e.target, err = document.getElementById("o-err");
+  const { ht, tva } = render();
+  if (!ht) { err.textContent = "Ajoutez au moins un article avant de valider."; return; }
+  if (!val(f, "name") || !val(f, "tel") || !val(f, "wilaya")) { err.textContent = "Indiquez votre nom, votre téléphone et votre wilaya."; return; }
+  err.textContent = "";
+  const lines = items.filter(i => q[i.id]).map(i => `- ${i.name} x ${q[i.id]} : ${fmt(q[i.id] * i.price)} HT`).join("\n");
+  const text = `Commande ULTRAFLOW\nClient : ${f.elements.ctype.value}\n${lines}\nTotal HT : ${fmt(ht)}\nTVA 19 % : ${fmt(tva)}\nTotal TTC : ${fmt(ht + tva)}\n\nNom : ${val(f, "name")}\nÉtablissement : ${val(f, "org") || "-"}\nTéléphone : ${val(f, "tel")}\nE-mail : ${val(f, "mail") || "-"}\nWilaya : ${val(f, "wilaya")}\nAdresse : ${val(f, "adr") || "-"}\nPrécisions : ${val(f, "msg") || "-"}`;
+  finish("o", text);
+});
+document.getElementById("svcForm").addEventListener("submit", e => {
+  e.preventDefault(); const f = e.target, err = document.getElementById("s-err");
+  if (!val(f, "type") || !val(f, "name") || !val(f, "tel")) { err.textContent = "Choisissez une prestation et indiquez votre nom et votre téléphone."; return; }
+  err.textContent = "";
+  const text = `Demande de prestation ULTRAFLOW\nPrestation : ${val(f, "type")}\nDate souhaitée : ${val(f, "date") || "à convenir"}\nParticipants ou volume : ${val(f, "nb") || "-"}\n\nNom : ${val(f, "name")}\nÉtablissement : ${val(f, "org") || "-"}\nTéléphone : ${val(f, "tel")}\nBesoin : ${val(f, "msg") || "-"}`;
+  finish("s", text);
+});
+document.querySelectorAll("[data-copy]").forEach(b => b.addEventListener("click", async () => {
+  try { await navigator.clipboard.writeText(document.getElementById(b.dataset.copy).textContent); b.textContent = "Texte copié"; }
+  catch (x) { b.textContent = "Sélectionnez le texte pour le copier"; }
+}));
+</script>
+</body>
+</html>
